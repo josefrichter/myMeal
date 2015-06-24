@@ -4,6 +4,9 @@
  */
 'use strict';
 
+var PushManager = require('./RemotePushIOS');
+var registerInstallation = require('./Installation');
+
 var React = require('react-native');
 var {
   AlertIOS,
@@ -18,13 +21,51 @@ var {
 var myMeal = React.createClass({
   render: function() {
     return (
-        <View style={styles.container}>
-          <Text>NotificationExample</Text>
-          <NotificationExample />
-        </View>
+        <LaunchScreen />
     )
   }
 });
+
+class LaunchScreen extends React.Component {
+  componentDidMount() {
+    PushManager.requestPermissions(function(err, data) {
+        if (err) {
+            console.log("Could not register for push");
+        } else {
+            console.log(data.token)
+            registerInstallation({
+                "deviceType": "ios",
+                "deviceToken": data.token,
+                "channels": ["global"]
+            });
+         }
+    });
+
+    PushManager.setListenerForNotifications(this.receiveRemoteNotification);
+  }
+
+  receiveRemoteNotification(notification) {
+     // Your code to run when the alert fires
+     AlertIOS.alert(
+         'Notification received',
+         notification.aps.alert,
+         [
+             {text: 'OK', onPress: () => console.log('Ok pressed!')}
+         ]
+     );
+
+ }
+
+  render() {
+      return (
+          <View style={styles.container}>
+            <Text>NotificationExample</Text>
+            <NotificationExample />
+          </View>
+      )
+  }
+
+}
 
 class Button extends React.Component {
 
@@ -40,6 +81,7 @@ class Button extends React.Component {
       </TouchableHighlight>
     );
   }
+
 }
 
 class NotificationExample extends React.Component {
