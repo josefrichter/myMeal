@@ -58,7 +58,10 @@ class HomeScreen extends React.Component {
 class SubScreen extends React.Component {
     render() {
         return (
-            <View style={styles.webViewContainer}>
+            <View
+              style={styles.webViewContainer}
+              navigator={this.props.navigator}
+              >
               <WebView
                 ref={WEBVIEW_REF}
                 automaticallyAdjustContentInsets={false}
@@ -108,13 +111,19 @@ class LaunchScreen extends React.Component {
     PushManager.setListenerForNotifications(this.receiveRemoteNotification);
   }
 
+  onPressFollow() {
+    console.log("follow");
+    console.log(this); // says 'undefined'
+    this.refs.nav.push(subScreenRoute); // obviously fails
+    // this.goTo(subScreenRoute); // fails too
+  }
+
   receiveRemoteNotification(notification) {
     // Your code to run when the alert fires
-
     var subScreenRoute = {
       component: SubScreen,
-      title: 'Detail Screen',
-      passProps: { link: notification.link}
+      title: 'Detail via Notification',
+      passProps: { link: notification.link }
     }
 
     // console.log(notification);
@@ -126,7 +135,8 @@ class LaunchScreen extends React.Component {
       notification.aps.alert.body,
       [
         {text: 'OK', onPress: () => console.log('Ok pressed!')},
-        {text: 'Follow link', onPress: () => this.props.navigator.push(subScreenRoute)}
+        //{text: 'Follow link', onPress: () => console.log(this)}
+        {text: 'Follow link', onPress: () => this.onPressFollow.bind(this)}
       ]
     );
   }
@@ -134,6 +144,7 @@ class LaunchScreen extends React.Component {
   render() {
       return (
           <NavigatorIOS
+            ref="nav"
             style={styles.wrapper}
             initialRoute={{
               title: 'Home Screen',
