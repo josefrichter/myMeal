@@ -59,8 +59,7 @@ class LaunchScreen extends React.Component {
   render() {
       return (
           <View style={styles.container}>
-            <Text>NotificationExample</Text>
-            <NotificationExample />
+            <Text>Intentionally Blank</Text>
           </View>
       )
   }
@@ -82,52 +81,6 @@ class Button extends React.Component {
     );
   }
 
-}
-
-class NotificationExample extends React.Component {
-  componentWillMount() {
-    PushNotificationIOS.addEventListener('notification', this._onNotification);
-  }
-
-  componentWillUnmount() {
-    PushNotificationIOS.removeEventListener('notification', this._onNotification);
-  }
-
-  render() {
-    return (
-      <View>
-        <Button
-          onPress={this._sendNotification}
-          label="Send fake notification"
-        />
-      </View>
-    );
-  }
-
-  _sendNotification() {
-    require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
-      aps: {
-        alert: 'This is a sample notification',
-        badge: '+1',
-        sound: 'default',
-        category: 'REACT_NATIVE'
-      },
-    });
-  }
-
-  _onNotification(notification) {
-    AlertIOS.alert(
-      'Notification Received',
-      'Alert message: ' + notification.getMessage(),
-      [{
-        text: 'Show',
-        onPress: console.log("show!"),
-      },{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-  }
 }
 
 var styles = StyleSheet.create({
