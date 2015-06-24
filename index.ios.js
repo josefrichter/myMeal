@@ -93,7 +93,10 @@ class Button extends React.Component {
 
 }
 
+var subScreenRoute = {}
+
 class LaunchScreen extends React.Component {
+
   componentDidMount() {
     PushManager.requestPermissions(function(err, data) {
         if (err) {
@@ -108,25 +111,22 @@ class LaunchScreen extends React.Component {
          }
     });
 
-    PushManager.setListenerForNotifications(this.receiveRemoteNotification);
+    PushManager.setListenerForNotifications(this.receiveRemoteNotification.bind(this));
   }
 
   onPressFollow() {
-    console.log("follow");
-    console.log(this); // says 'undefined'
-    this.refs.nav.push(subScreenRoute); // obviously fails
-    // this.goTo(subScreenRoute); // fails too
+    // http://stackoverflow.com/questions/29387577/getting-access-to-this-props-navigator-from-inside-navigatorios-onrightbuttonpre
+    this.refs.nav.push(subScreenRoute);
   }
 
   receiveRemoteNotification(notification) {
     // Your code to run when the alert fires
-    var subScreenRoute = {
+    subScreenRoute = {
       component: SubScreen,
       title: 'Detail via Notification',
       passProps: { link: notification.link }
     }
 
-    // console.log(notification);
     // the sample JSON of the notifications is in samplePushNotification.json file
     // https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
     // https://parse.com/docs/rest/guide/#push-notifications
@@ -135,8 +135,7 @@ class LaunchScreen extends React.Component {
       notification.aps.alert.body,
       [
         {text: 'OK', onPress: () => console.log('Ok pressed!')},
-        //{text: 'Follow link', onPress: () => console.log(this)}
-        {text: 'Follow link', onPress: () => this.onPressFollow.bind(this)}
+        {text: 'Follow link', onPress: this.onPressFollow.bind(this)}
       ]
     );
   }
