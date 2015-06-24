@@ -6,48 +6,160 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
+  AlertIOS,
+  PushNotificationIOS,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
+  AppRegistry,
 } = React;
 
 var myMeal = React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <View style={styles.container}>
+          <Text>NotificationExample</Text>
+          <NotificationExample />
+        </View>
+    )
+  }
+});
+
+var Button = React.createClass({
+  render: function() {
+    return (
+      <TouchableHighlight
+        underlayColor={'white'}
+        style={styles.button}
+        onPress={this.props.onPress}>
+        <Text style={styles.buttonLabel}>
+          {this.props.label}
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      </TouchableHighlight>
     );
   }
 });
 
+class NotificationExample extends React.Component {
+  componentWillMount() {
+    PushNotificationIOS.addEventListener('notification', this._onNotification);
+  }
+
+  componentWillUnmount() {
+    PushNotificationIOS.removeEventListener('notification', this._onNotification);
+  }
+
+  render() {
+    return (
+      <View>
+        <Button
+          onPress={this._sendNotification}
+          label="Send fake notification"
+        />
+      </View>
+    );
+  }
+
+  _sendNotification() {
+    require('RCTDeviceEventEmitter').emit('remoteNotificationReceived', {
+      aps: {
+        alert: 'This is a sample notification',
+        badge: '+1',
+        sound: 'default',
+        category: 'REACT_NATIVE'
+      },
+    });
+  }
+
+  _onNotification(notification) {
+    AlertIOS.alert(
+      'Notification Received',
+      'Alert message: ' + notification.getMessage(),
+      [{
+        text: 'Dismiss',
+        onPress: null,
+      }]
+    );
+  }
+}
+
+class NotificationPermissionExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {permissions: null};
+  }
+
+  render() {
+    return (
+      <View>
+        <Button
+          onPress={this._showPermissions.bind(this)}
+          label="Show enabled permissions"
+        />
+        <Text>
+          {JSON.stringify(this.state.permissions)}
+        </Text>
+      </View>
+    );
+  }
+
+  _showPermissions() {
+    PushNotificationIOS.checkPermissions((permissions) => {
+      this.setState({permissions});
+    });
+  }
+}
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  button: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  buttonLabel: {
+    color: 'blue',
   },
 });
+
+exports.title = 'PushNotificationIOS';
+exports.description = 'Apple PushNotification and badge value';
+exports.examples = [
+{
+  title: 'Badge Number',
+  render(): React.Component {
+    PushNotificationIOS.requestPermissions();
+
+    return (
+      <View>
+        <Button
+          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(42)}
+          label="Set app's icon badge to 42"
+        />
+        <Button
+          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(0)}
+          label="Clear app's icon badge"
+        />
+      </View>
+    );
+  },
+},
+{
+  title: 'Push Notifications',
+  render(): React.Component {
+    return <NotificationExample />;
+  }
+},
+{
+  title: 'Notifications Permissions',
+  render(): React.Component {
+    return <NotificationPermissionExample />;
+  }
+}];
 
 AppRegistry.registerComponent('myMeal', () => myMeal);
