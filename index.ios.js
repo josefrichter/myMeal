@@ -26,8 +26,9 @@ var myMeal = React.createClass({
   }
 });
 
-var Button = React.createClass({
-  render: function() {
+class Button extends React.Component {
+
+  render() {
     return (
       <TouchableHighlight
         underlayColor={'white'}
@@ -39,7 +40,7 @@ var Button = React.createClass({
       </TouchableHighlight>
     );
   }
-});
+}
 
 class NotificationExample extends React.Component {
   componentWillMount() {
@@ -87,33 +88,6 @@ class NotificationExample extends React.Component {
   }
 }
 
-class NotificationPermissionExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {permissions: null};
-  }
-
-  render() {
-    return (
-      <View>
-        <Button
-          onPress={this._showPermissions.bind(this)}
-          label="Show enabled permissions"
-        />
-        <Text>
-          {JSON.stringify(this.state.permissions)}
-        </Text>
-      </View>
-    );
-  }
-
-  _showPermissions() {
-    PushNotificationIOS.checkPermissions((permissions) => {
-      this.setState({permissions});
-    });
-  }
-}
-
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -130,39 +104,5 @@ var styles = StyleSheet.create({
   },
 });
 
-exports.title = 'PushNotificationIOS';
-exports.description = 'Apple PushNotification and badge value';
-exports.examples = [
-{
-  title: 'Badge Number',
-  render(): React.Component {
-    PushNotificationIOS.requestPermissions();
-
-    return (
-      <View>
-        <Button
-          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(42)}
-          label="Set app's icon badge to 42"
-        />
-        <Button
-          onPress={() => PushNotificationIOS.setApplicationIconBadgeNumber(0)}
-          label="Clear app's icon badge"
-        />
-      </View>
-    );
-  },
-},
-{
-  title: 'Push Notifications',
-  render(): React.Component {
-    return <NotificationExample />;
-  }
-},
-{
-  title: 'Notifications Permissions',
-  render(): React.Component {
-    return <NotificationPermissionExample />;
-  }
-}];
 
 AppRegistry.registerComponent('myMeal', () => myMeal);
