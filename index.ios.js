@@ -45,16 +45,20 @@ class LaunchScreen extends React.Component {
   }
 
   receiveRemoteNotification(notification) {
-     // Your code to run when the alert fires
-     AlertIOS.alert(
-         'Notification received',
-         notification.aps.alert,
-         [
-             {text: 'OK', onPress: () => console.log('Ok pressed!')}
-         ]
-     );
-
- }
+    // Your code to run when the alert fires
+    // console.log(notification);
+    // the sample JSON of the notifications is in samplePushNotification.json file
+    // https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
+    // https://parse.com/docs/rest/guide/#push-notifications
+    AlertIOS.alert(
+      notification.aps.alert.title,
+      notification.aps.alert.body,
+      [
+        {text: 'OK', onPress: () => console.log('Ok pressed!')},
+        {text: 'Follow link', onPress: () => console.log(notification.link)}
+      ]
+    );
+  }
 
   render() {
       return (

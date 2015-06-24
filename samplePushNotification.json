@@ -1,0 +1,11 @@
+{
+   "aps" : {
+      "alert" : {
+        "title": "New notification",
+         "body" : "Body text goes here"
+      },
+      "badge" : "+1",
+      "sound" : "default"
+   },
+   "link" : "http://www.iphonedesign.info"
+}
