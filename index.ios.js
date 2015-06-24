@@ -6,6 +6,7 @@
 
 var PushManager = require('./RemotePushIOS');
 var registerInstallation = require('./Installation');
+var WEBVIEW_REF = 'webview';
 
 var React = require('react-native');
 var {
@@ -17,6 +18,7 @@ var {
   View,
   AppRegistry,
   NavigatorIOS,
+  WebView,
 } = React;
 
 var myMeal = React.createClass({
@@ -32,7 +34,7 @@ class HomeScreen extends React.Component {
       this.props.navigator.push({
         title: "Detail Screen",
         component: SubScreen,
-        passProps: { link: 'http://www.iphonedesign.info'}
+        passProps: { link: 'https://www.theguardian.com/football'}
       });
     }
 
@@ -56,8 +58,16 @@ class HomeScreen extends React.Component {
 class SubScreen extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
-              <Text>{this.props.link}</Text>
+            <View style={styles.webViewContainer}>
+              <WebView
+                ref={WEBVIEW_REF}
+                automaticallyAdjustContentInsets={false}
+                style={styles.webView}
+                url={this.props.link}
+                javaScriptEnabledAndroid={true}
+                onNavigationStateChange={this.onNavigationStateChange}
+                startInLoadingState={true}
+              />
             </View>
         )
     }
@@ -141,8 +151,19 @@ var styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
+  webViewContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    paddingTop: 64,
+  },
+  webView: {
+  },
   container: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
