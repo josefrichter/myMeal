@@ -4,8 +4,10 @@ var APP_ID = 'GyG9txPqLE0m2o1NAy1Bt0tN9QEFAbT8XrLKxGjh';
 var API_KEY = 'ac9u5nlSqC79mYmLyQcyloapTpdxzY7WPtvd0us3';
 
 var React = require('react-native');
-var Parse = require('parse').Parse;
-var ParseReact = require('parse-react');
+// var Parse = require('parse').Parse;
+// var ParseReact = require('parse-react');
+
+var DetailScreen = require('./DetailScreen');
 
 var {
   StyleSheet,
@@ -39,6 +41,7 @@ var NotifList = React.createClass({
   },
 
   componentDidMount: function() {
+    // http://stackoverflow.com/questions/30415510/react-native-cant-access-parse-data
     fetch("https://api.parse.com/1/classes/Notification", {
       headers: {
         "X-Parse-Application-Id": APP_ID,
@@ -59,12 +62,12 @@ var NotifList = React.createClass({
   },
 
   render: function() {
-    console.log("render");
     if(!this.state.loaded) {
       return this.renderLoadingView();
     }
     return (
       <ListView
+        style={styles.ListView}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
       />
@@ -72,10 +75,12 @@ var NotifList = React.createClass({
   },
 
   renderRow: function(notif) {
-    console.log(notif);
     return (
-      <TouchableHighlight onPress={() => this.showNotif(notif)}>
-        <View style={styles.cellContainer}>
+      <TouchableHighlight
+        style={styles.cell}
+        onPress={() => this.showNotif(notif)}
+        >
+        <View >
             <Text style={styles.title}>{notif.title}</Text>
             <Text style={styles.body}>{notif.body}</Text>
         </View>
@@ -86,7 +91,7 @@ var NotifList = React.createClass({
   showNotif: function(notif) {
     this.props.navigator.push({
       title: notif.title,
-      component: SubScreen,
+      component: DetailScreen,
       passProps: {link: notif.link}
     });
   },
@@ -105,11 +110,22 @@ var NotifList = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  cellContainer: {
+  listView: {
+  },
+  cell: {
     flex: 1,
+    padding: 10,
+    marginLeft: 20,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    borderColor: 'rgba(0,0,0,0)',
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 1,
   },
   title: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
   body: {
     fontSize: 14,

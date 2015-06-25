@@ -7,6 +7,7 @@
 var PushManager = require('./RemotePushIOS');
 var registerInstallation = require('./Installation');
 var NotifList = require('./NotifList');
+var DetailScreen = require('./DetailScreen');
 var WEBVIEW_REF = 'webview';
 var HOME_CONTENT_URL = 'http://www.mymeal.cz/';
 
@@ -35,7 +36,7 @@ class HomeScreen extends React.Component {
     // showDetail() {
     //   this.props.navigator.push({
     //     title: "Detail Screen",
-    //     component: SubScreen,
+    //     component: DetailScreen,
     //     passProps: { link: 'https://www.theguardian.com/football'}
     //   });
     // }
@@ -50,27 +51,6 @@ class HomeScreen extends React.Component {
             <NotifList navigator={this.props.navigator} />
           </View>
       )
-    }
-}
-
-class SubScreen extends React.Component {
-    render() {
-        return (
-            <View
-              style={styles.webViewContainer}
-              navigator={this.props.navigator}
-              >
-              <WebView
-                ref={WEBVIEW_REF}
-                automaticallyAdjustContentInsets={false}
-                style={styles.webView}
-                url={this.props.link}
-                javaScriptEnabledAndroid={true}
-                onNavigationStateChange={this.onNavigationStateChange}
-                startInLoadingState={true}
-              />
-            </View>
-        )
     }
 }
 
@@ -120,7 +100,7 @@ class LaunchScreen extends React.Component {
   receiveRemoteNotification(notification) {
     // Your code to run when the alert fires
     subScreenRoute = {
-      component: SubScreen,
+      component: DetailScreen,
       title: 'Detail via Notification',
       passProps: { link: notification.link }
     }
@@ -172,7 +152,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
   button: {
