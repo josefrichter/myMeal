@@ -28,6 +28,8 @@
 		DEC94F781B3ABF77005122EF /* RCTRemotePushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC94F731B3ABF77005122EF /* RCTRemotePushManager.m */; };
 		DEC94F791B3ABF77005122EF /* RemotePushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC94F751B3ABF77005122EF /* RemotePushDelegate.m */; };
 		DEC94F7A1B3ABF77005122EF /* RemotePushIOS.js in Resources */ = {isa = PBXBuildFile; fileRef = DEC94F761B3ABF77005122EF /* RemotePushIOS.js */; };
+		DEC94F7C1B3C2E52005122EF /* notifSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEC94F7B1B3C2E52005122EF /* notifSound.wav */; };
+		DEC94F7E1B3C33EB005122EF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC94F7D1B3C33EB005122EF /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,8 @@
 		DEC94F741B3ABF77005122EF /* RemotePushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemotePushDelegate.h; path = "node_modules/react-native-remote-push/RemotePushDelegate.h"; sourceTree = "<group>"; };
 		DEC94F751B3ABF77005122EF /* RemotePushDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemotePushDelegate.m; path = "node_modules/react-native-remote-push/RemotePushDelegate.m"; sourceTree = "<group>"; };
 		DEC94F761B3ABF77005122EF /* RemotePushIOS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RemotePushIOS.js; path = "node_modules/react-native-remote-push/RemotePushIOS.js"; sourceTree = "<group>"; };
+		DEC94F7B1B3C2E52005122EF /* notifSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notifSound.wav; sourceTree = "<group>"; };
+		DEC94F7D1B3C33EB005122EF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC94F7E1B3C33EB005122EF /* AudioToolbox.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -253,6 +258,7 @@
 		13B07FAE1A68108700A75B9A /* myMeal */ = {
 			isa = PBXGroup;
 			children = (
+				DEC94F7B1B3C2E52005122EF /* notifSound.wav */,
 				DEC94F711B3ABF77005122EF /* package.json */,
 				DEC94F721B3ABF77005122EF /* RCTRemotePushManager.h */,
 				DEC94F731B3ABF77005122EF /* RCTRemotePushManager.m */,
@@ -316,6 +322,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				DEC94F7D1B3C33EB005122EF /* AudioToolbox.framework */,
 				13B07FAE1A68108700A75B9A /* myMeal */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* myMealTests */,
@@ -557,6 +564,7 @@
 			files = (
 				DEC94F7A1B3ABF77005122EF /* RemotePushIOS.js in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
+				DEC94F7C1B3C2E52005122EF /* notifSound.wav in Resources */,
 				DEC94F6A1B3ABEC1005122EF /* react-native-remote-push in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

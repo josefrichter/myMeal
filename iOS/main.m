@@ -8,6 +8,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 #import "AppDelegate.h"
 
