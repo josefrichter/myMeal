@@ -6,6 +6,7 @@
 
 var PushManager = require('./RemotePushIOS');
 var registerInstallation = require('./Installation');
+var NotifList = require('./NotifList');
 var WEBVIEW_REF = 'webview';
 var HOME_CONTENT_URL = 'http://www.mymeal.cz/';
 
@@ -44,17 +45,9 @@ class HomeScreen extends React.Component {
       return (
           <View
             navigator={this.props.navigator}
-            style={styles.webViewContainer}
+            style={styles.container}
             >
-            <WebView
-              ref={WEBVIEW_REF}
-              automaticallyAdjustContentInsets={false}
-              style={styles.webView}
-              url={HOME_CONTENT_URL}
-              javaScriptEnabledAndroid={true}
-              onNavigationStateChange={this.onNavigationStateChange}
-              startInLoadingState={true}
-            />
+            <NotifList navigator={this.props.navigator} />
           </View>
       )
     }
