@@ -7,6 +7,7 @@
 var PushManager = require('./RemotePushIOS');
 var registerInstallation = require('./Installation');
 var WEBVIEW_REF = 'webview';
+var HOME_CONTENT_URL = 'http://www.mymeal.cz/';
 
 var React = require('react-native');
 var {
@@ -30,25 +31,29 @@ var myMeal = React.createClass({
 });
 
 class HomeScreen extends React.Component {
-    showDetail() {
-      this.props.navigator.push({
-        title: "Detail Screen",
-        component: SubScreen,
-        passProps: { link: 'https://www.theguardian.com/football'}
-      });
-    }
+    // showDetail() {
+    //   this.props.navigator.push({
+    //     title: "Detail Screen",
+    //     component: SubScreen,
+    //     passProps: { link: 'https://www.theguardian.com/football'}
+    //   });
+    // }
 
     render() {
       // http://stackoverflow.com/questions/30079640/undefined-is-not-an-object-evaluating-this-props-navigator-push
       return (
           <View
             navigator={this.props.navigator}
-            style={styles.container}
+            style={styles.webViewContainer}
             >
-            <Text>Intentionally Blank</Text>
-            <Button
-              onPress={this.showDetail.bind(this)}
-              label='Show subscreen'
+            <WebView
+              ref={WEBVIEW_REF}
+              automaticallyAdjustContentInsets={false}
+              style={styles.webView}
+              url={HOME_CONTENT_URL}
+              javaScriptEnabledAndroid={true}
+              onNavigationStateChange={this.onNavigationStateChange}
+              startInLoadingState={true}
             />
           </View>
       )
