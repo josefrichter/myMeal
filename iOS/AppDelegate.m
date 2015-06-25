@@ -13,6 +13,8 @@
 
 #import "RemotePushDelegate.h"
 
+#import <AudioToolbox/AudioToolbox.h>
+
 @implementation AppDelegate
 
 - (id) init {
