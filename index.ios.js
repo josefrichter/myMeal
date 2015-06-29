@@ -105,6 +105,10 @@ class LaunchScreen extends React.Component {
       passProps: { link: notification.link }
     }
 
+    // update notifications list
+    // NotifList.loadRemoteData();
+    // this.render();
+
     // the sample JSON of the notifications is in samplePushNotification.json file
     // https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
     // https://parse.com/docs/rest/guide/#push-notifications
@@ -126,7 +130,7 @@ class LaunchScreen extends React.Component {
             initialRoute={{
               title: 'Home Screen',
               component: HomeScreen,
-              //passProps: { myProp: 'foo' },
+              // passProps: { data: this.state.data },
             }}
           />
       );

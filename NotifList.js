@@ -2,6 +2,7 @@
 
 var APP_ID = 'GyG9txPqLE0m2o1NAy1Bt0tN9QEFAbT8XrLKxGjh';
 var API_KEY = 'ac9u5nlSqC79mYmLyQcyloapTpdxzY7WPtvd0us3';
+var API_URL = 'https://api.parse.com/1/classes/Notification';
 
 var React = require('react-native');
 // var Parse = require('parse').Parse;
@@ -40,25 +41,31 @@ var NotifList = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    // http://stackoverflow.com/questions/30415510/react-native-cant-access-parse-data
-    fetch("https://api.parse.com/1/classes/Notification", {
-      headers: {
-        "X-Parse-Application-Id": APP_ID,
-        "X-Parse-REST-API-Key": API_KEY
-      }
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-          loaded: true,
+  loadRemoteData: function() {
+      console.log("fetching data");
+      // http://stackoverflow.com/questions/30415510/react-native-cant-access-parse-data
+      fetch(API_URL, {
+        headers: {
+          "X-Parse-Application-Id": APP_ID,
+          "X-Parse-REST-API-Key": API_KEY
+        }
+      })
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log("fetch data response: " + responseData.results)
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(responseData.results),
+            loaded: true,
+          })
         })
-      })
-      .catch(function(error) {
-        console.log(error)
-      })
-     .done();
+        .catch(function(error) {
+          console.log(error)
+        })
+       .done();
+  },
+
+  componentDidMount: function() {
+      this.loadRemoteData();
   },
 
   render: function() {
@@ -97,7 +104,7 @@ var NotifList = React.createClass({
   },
 
   renderLoadingView: function() {
-    console.log("loading");
+    console.log("loading view");
     return (
       <ActivityIndicatorIOS
         style={[styles.centering, {height: 80}]}
